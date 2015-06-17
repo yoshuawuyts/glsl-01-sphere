@@ -1,0 +1,20 @@
+{
+  "name": "glsl-01-sphere",
+  "version": "1.0.0",
+  "private": true,
+  "browserify": {
+    "transform": [
+      "glslify"
+    ]
+  },
+  "scripts": {
+    "test": "standard && NODE_ENV=test node test",
+    "test-cov": "standard && NODE_ENV=test istanbul cover test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "istanbul": "^0.3.15",
+    "standard": "^4.3.0",
+    "tape": "^4.0.0"
+  }
+}
