@@ -1,6 +1,7 @@
 const orbitCamera = require('canvas-orbit-camera')
 const Geometry = require('gl-geometry')
 const glContext = require('gl-context')
+const glShader = require('gl-shader')
 const glslify = require('glslify')
 const normals = require('normals')
 const fit = require('canvas-fit')
@@ -16,7 +17,7 @@ window.addEventListener('resize', fit(canvas), false)
 
 const geometry = Geometry(gl)
 geometry.attr('aPosition', bunny.positions)
-geometry.attr('aNormal', normals.vertexNormal(bunny.cells, bunny.positions))
+geometry.attr('aNormal', normals.vertexNormals(bunny.cells, bunny.positions))
 geometry.faces(bunny.cells)
 
 var projection = mat4.create()
@@ -25,10 +26,10 @@ var view = mat4.create()
 var height = null
 var width = null
 
-var shader = glslify({
-  vert: './bunny.vert',
-  frag: './bunny.frag'
-})(gl)
+var shader = glShader(gl,
+  glslify('./shader.vert'),
+  glslify('./shader.frag')
+)
 
 // update vars before used in render loop
 // null -> null

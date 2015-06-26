@@ -2,17 +2,29 @@
   "name": "glsl-01-sphere",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "start": "budo index.js",
+    "test": "standard && NODE_ENV=test node test",
+    "test-cov": "standard && NODE_ENV=test istanbul cover test.js"
+  },
   "browserify": {
     "transform": [
       "glslify"
     ]
   },
-  "scripts": {
-    "test": "standard && NODE_ENV=test node test",
-    "test-cov": "standard && NODE_ENV=test istanbul cover test.js"
+  "dependencies": {
+    "bunny": "^1.0.1",
+    "canvas-fit": "^1.4.0",
+    "canvas-orbit-camera": "^1.0.2",
+    "gl-context": "^0.1.1",
+    "gl-geometry": "^1.1.1",
+    "gl-mat4": "^1.1.4",
+    "gl-shader": "^4.0.5",
+    "glslify": "^2.2.1",
+    "normals": "^1.0.1"
   },
-  "dependencies": {},
   "devDependencies": {
+    "budo": "^4.1.0",
     "istanbul": "^0.3.15",
     "standard": "^4.3.0",
     "tape": "^4.0.0"
