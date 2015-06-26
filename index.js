@@ -1,12 +1,15 @@
 const orbitCamera = require('canvas-orbit-camera')
-const Geometry = require('gl-geometry')
+const createGeometry = require('gl-geometry')
 const glContext = require('gl-context')
+const icosphere = require('icosphere')
 const glShader = require('gl-shader')
 const glslify = require('glslify')
 const normals = require('normals')
 const fit = require('canvas-fit')
 const mat4 = require('gl-mat4')
-const bunny = require('bunny')
+
+const vert = glslify('./shader.vert')
+const frag = glslify('./shader.frag')
 
 const canvas = document.body.appendChild(document.createElement('canvas'))
 const gl = glContext(canvas, render)
@@ -15,10 +18,11 @@ const camera = orbitCamera(canvas)
 // always make the canvas fit the window
 window.addEventListener('resize', fit(canvas), false)
 
-const geometry = Geometry(gl)
-geometry.attr('aPosition', bunny.positions)
-geometry.attr('aNormal', normals.vertexNormals(bunny.cells, bunny.positions))
-geometry.faces(bunny.cells)
+const mesh = icosphere(4)
+const geo = createGeometry(gl)
+  .attr('aPosition', mesh.positions)
+  .attr('aNormal', normals.vertexNormals(mesh.cells, mesh.positions))
+  .faces(mesh.cells)
 
 var projection = mat4.create()
 var model = mat4.create()
@@ -26,10 +30,7 @@ var view = mat4.create()
 var height = null
 var width = null
 
-var shader = glShader(gl,
-  glslify('./shader.vert'),
-  glslify('./shader.frag')
-)
+var shader = glShader(gl, vert, frag)
 
 // update vars before used in render loop
 // null -> null
@@ -55,9 +56,9 @@ function render () {
   gl.viewport(0, 0, width, height)
   gl.enable(gl.DEPTH_TEST)
   gl.enable(gl.CULL_FACE)
-  geometry.bind(shader)
+  geo.bind(shader)
   shader.uniforms.uProjection = projection
   shader.uniforms.uView = view
   shader.uniforms.uModel = model
-  geometry.draw(gl.TRIANGLES)
+  geo.draw(gl.TRIANGLES)
 }
