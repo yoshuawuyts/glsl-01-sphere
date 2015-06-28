@@ -1,7 +1,7 @@
 const orbitCamera = require('canvas-orbit-camera')
+const icosphere = require('primitive-icosphere')
 const createGeometry = require('gl-geometry')
 const glContext = require('gl-context')
-const icosphere = require('icosphere')
 const glShader = require('gl-shader')
 const glslify = require('glslify')
 const normals = require('normals')
@@ -18,7 +18,8 @@ const camera = orbitCamera(canvas)
 // always make the canvas fit the window
 window.addEventListener('resize', fit(canvas), false)
 
-const mesh = icosphere(1)
+const radius = 1
+const mesh = icosphere(radius, { subdivisions: 3 })
 const geo = createGeometry(gl)
   .attr('aPosition', mesh.positions)
   .attr('aNormal', normals.vertexNormals(mesh.cells, mesh.positions))
@@ -38,9 +39,7 @@ function update () {
   height = gl.drawingBufferHeight
   width = gl.drawingBufferWidth
 
-  camera.view(view)
   camera.tick()
-  console.log(view)
 
   const aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight
   const fieldOfView = Math.PI / 4
