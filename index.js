@@ -18,19 +18,19 @@ const camera = orbitCamera(canvas)
 // always make the canvas fit the window
 window.addEventListener('resize', fit(canvas), false)
 
-const mesh = icosphere(4)
+const mesh = icosphere(1)
 const geo = createGeometry(gl)
   .attr('aPosition', mesh.positions)
   .attr('aNormal', normals.vertexNormals(mesh.cells, mesh.positions))
   .faces(mesh.cells)
 
-var projection = mat4.create()
-var model = mat4.create()
-var view = mat4.create()
+const projection = mat4.create()
+const model = mat4.create()
+const view = mat4.create()
 var height = null
 var width = null
 
-var shader = glShader(gl, vert, frag)
+const shader = glShader(gl, vert, frag)
 
 // update vars before used in render loop
 // null -> null
@@ -40,11 +40,12 @@ function update () {
 
   camera.view(view)
   camera.tick()
+  console.log(view)
 
-  var aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight
-  var fieldOfView = Math.PI / 4
-  var near = 0.01
-  var far = 100
+  const aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight
+  const fieldOfView = Math.PI / 4
+  const near = 0.01
+  const far = 100
 
   mat4.perspective(projection, fieldOfView, aspectRatio, near, far)
 }
