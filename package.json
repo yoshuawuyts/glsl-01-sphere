@@ -9,10 +9,12 @@
   },
   "browserify": {
     "transform": [
+      "babelify",
       "glslify"
     ]
   },
   "dependencies": {
+    "babelify": "^6.1.2",
     "canvas-fit": "^1.4.0",
     "canvas-orbit-camera": "^1.0.2",
     "gl-context": "^0.1.1",
